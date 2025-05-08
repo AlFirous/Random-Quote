@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Random Quote</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 20%;
+      background-color: #f8f9fa;
+    }
+    #quote {
+      font-size: 1.5em;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: inline-block;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div id="quote">Loading quote...</div>
+
+  <script>
+    fetch('quotes.txt')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.text();
+      })
+      .then(text => {
+        const quotes = text.trim().split('\n').filter(q => q.length > 0);
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quote').textContent = randomQuote;
+      })
+      .catch(error => {
+        document.getElementById('quote').textContent = 'Failed to load quote.';
+        console.error('Fetch error:', error);
+      });
+  </script>
+</body>
+</html>
